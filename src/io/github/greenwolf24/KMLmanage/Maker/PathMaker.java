@@ -21,7 +21,7 @@ public class PathMaker
 		}
 	}
 	
-	/*
+	//*
 	public static void main(String[] args)
 	{
 		ArrayList<Position> positions = new ArrayList<Position>();
@@ -29,13 +29,15 @@ public class PathMaker
 		positions.add(new Position(75, 52, 3000));
 		positions.add(new Position(77, 40, 6000));
 		
-		makePathLine(positions, "Test");
+		PathMaker pm = new PathMaker("data/Output");
+		pm.makePathLine(positions, "Test");
+		//makePathLine(positions, "Test");
 	}
 	//*/
 	
 	// This is what I call a very dirty method.
 	// This is not at all the proper way to do this, but it works really effin well.
-	private static String makePathLine(ArrayList<Position> positions)
+	private String makePathLine(ArrayList<Position> positions)
 	{
 		String path = "";
 		for(int i = 0; i < positions.size(); i++)
@@ -45,11 +47,11 @@ public class PathMaker
 		return path;
 	}
 	
-	public static void makePathLine(ArrayList<Position> positions, String name)
+	public void makePathLine(ArrayList<Position> positions, String name)
 	{
-		String ret = hardCodeExampleFile();
-		ret.replace("FILENAME",name);
-		ret.replace("POSITIONS", makePathLine(positions));
+		String ret = hardCodeExampleFile(name, makePathLine(positions));
+		//ret.replace("FILENAME",name);
+		//ret.replace("POSITIONS", makePathLine(positions));
 		/*
 		// get the example file
 			No longer needed, Hard coded should work for now
@@ -83,6 +85,8 @@ public class PathMaker
 		}
 		//*/
 		
+		//System.out.println(ret);
+		
 		try
 		{
 			File file = new File(filePath + name + ".kml");
@@ -101,13 +105,13 @@ public class PathMaker
 	
 	// This might be useful for any kind of use case where
 	// the example file is not carried with the running class
-	private static String hardCodeExampleFile()
+	private String hardCodeExampleFile(String name,String positions)
 	{
 		String ret =
 				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
 						"<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
 						"<Document>\n" +
-						"\t<name>FILENAME</name>\n" +
+						"\t<name>"+name+"</name>\n" +
 						"\t<Style id=\"inline\">\n" +
 						"\t\t<LineStyle>\n" +
 						"\t\t\t<color>ff0000ff</color>\n" +
@@ -143,7 +147,7 @@ public class PathMaker
 						"\t\t\t<tessellate>1</tessellate>\n" +
 						"\t\t\t<altitudeMode>absolute</altitudeMode>\n" +
 						"\t\t\t<coordinates>\n" +
-						"\t\t\t\tPOSITIONS\n" +
+						"\t\t\t\t"+positions+"\n" +
 						"\t\t\t</coordinates>\n" +
 						"\t\t</LineString>\n" +
 						"\t</Placemark>\n" +
