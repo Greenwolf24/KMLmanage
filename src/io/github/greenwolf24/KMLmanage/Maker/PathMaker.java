@@ -30,26 +30,36 @@ public class PathMaker
 		positions.add(new Position(77, 40, 6000));
 		
 		PathMaker pm = new PathMaker("data/Output");
-		pm.makePathLine(positions, "Test");
+		pm.makePathLine(positions, "Test",false);
 		//makePathLine(positions, "Test");
 	}
 	//*/
 	
 	// This is what I call a very dirty method.
 	// This is not at all the proper way to do this, but it works really effin well.
-	private String makePathLine(ArrayList<Position> positions)
+	private String makePathLine(ArrayList<Position> positions, boolean altitude)
 	{
 		String path = "";
 		for(int i = 0; i < positions.size(); i++)
 		{
-			path += positions.get(i).getLon() + "," + positions.get(i).getLat() + "," + positions.get(i).getAlt() + " ";
+			path += positions.get(i).getLon() + "," + positions.get(i).getLat();// + "," //+ positions.get(i).getAlt() + " ";
+			if(altitude)
+			{
+				path += "," + positions.get(i).getAlt();
+			}
+			path += " ";
 		}
 		return path;
 	}
 	
 	public void makePathLine(ArrayList<Position> positions, String name)
 	{
-		String ret = hardCodeExampleFile(name, makePathLine(positions));
+		makePathLine(positions, name,true);
+	}
+	
+	public void makePathLine(ArrayList<Position> positions, String name, boolean altitude)
+	{
+		String ret = hardCodeExampleFile(name, makePathLine(positions,altitude), altitude);
 		//ret.replace("FILENAME",name);
 		//ret.replace("POSITIONS", makePathLine(positions));
 		/*
@@ -103,9 +113,14 @@ public class PathMaker
 		//return ret;
 	}
 	
+	private String hardCodeExampleFile(String name, String path)
+	{
+		return hardCodeExampleFile(name, path, true);
+	}
+	
 	// This might be useful for any kind of use case where
 	// the example file is not carried with the running class
-	private String hardCodeExampleFile(String name,String positions)
+	private String hardCodeExampleFile(String name,String positions,Boolean elevation)
 	{
 		String ret =
 				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -144,9 +159,13 @@ public class PathMaker
 						"\t\t<name>Example</name>\n" +
 						"\t\t<styleUrl>#inline1</styleUrl>\n" +
 						"\t\t<LineString>\n" +
-						"\t\t\t<tessellate>1</tessellate>\n" +
-						"\t\t\t<altitudeMode>absolute</altitudeMode>\n" +
-						"\t\t\t<coordinates>\n" +
+						"\t\t\t<tessellate>1</tessellate>\n";
+		if(elevation)
+		{
+			ret = ret + "\t\t\t<altitudeMode>absolute</altitudeMode>\n";
+		}
+			
+			ret = ret + "\t\t\t<coordinates>\n" +
 						"\t\t\t\t"+positions+"\n" +
 						"\t\t\t</coordinates>\n" +
 						"\t\t</LineString>\n" +

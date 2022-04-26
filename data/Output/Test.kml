@@ -35,7 +35,6 @@
 		<styleUrl>#inline1</styleUrl>
 		<LineString>
 			<tessellate>1</tessellate>
-			<altitudeMode>absolute</altitudeMode>
 			<coordinates>
 				50.0,71.0,300 52.0,75.0,3000 40.0,77.0,6000 
 			</coordinates>
