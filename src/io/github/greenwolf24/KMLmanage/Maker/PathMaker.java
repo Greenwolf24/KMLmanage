@@ -52,14 +52,12 @@ public class PathMaker
 		return path;
 	}
 	
-	public void makePathLine(ArrayList<Position> positions, String name)
-	{
-		makePathLine(positions, name,true);
-	}
+	public void makePathLine(ArrayList<Position> positions, String name) {makePathLine(positions, name,true, "ff0000ff");}
+	public void makePathLine(ArrayList<Position> positions, String name, boolean altitude) {makePathLine(positions, name, altitude, "ff0000ff");}
 	
-	public void makePathLine(ArrayList<Position> positions, String name, boolean altitude)
+	public void makePathLine(ArrayList<Position> positions, String name, boolean altitude, String color)
 	{
-		String ret = hardCodeExampleFile(name, makePathLine(positions,altitude), altitude);
+		String ret = hardCodeExampleFile(name, makePathLine(positions,altitude), altitude, color);
 		//ret.replace("FILENAME",name);
 		//ret.replace("POSITIONS", makePathLine(positions));
 		/*
@@ -115,12 +113,17 @@ public class PathMaker
 	
 	private String hardCodeExampleFile(String name, String path)
 	{
-		return hardCodeExampleFile(name, path, true);
+		return hardCodeExampleFile(name, path, true, "ff0000ff");
+	}
+	
+	private String hardCodeExampleFile(String name, String path, boolean altitude)
+	{
+		return hardCodeExampleFile(name, path, altitude, "ff0000ff");
 	}
 	
 	// This might be useful for any kind of use case where
 	// the example file is not carried with the running class
-	private String hardCodeExampleFile(String name,String positions,Boolean elevation)
+	private String hardCodeExampleFile(String name,String positions,Boolean elevation,String color)
 	{
 		String ret =
 				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -129,7 +132,7 @@ public class PathMaker
 						"\t<name>"+name+"</name>\n" +
 						"\t<Style id=\"inline\">\n" +
 						"\t\t<LineStyle>\n" +
-						"\t\t\t<color>ff0000ff</color>\n" +
+						"\t\t\t<color>"+color+"</color>\n" +
 						"\t\t\t<width>2</width>\n" +
 						"\t\t</LineStyle>\n" +
 						"\t\t<PolyStyle>\n" +
@@ -138,7 +141,7 @@ public class PathMaker
 						"\t</Style>\n" +
 						"\t<Style id=\"inline0\">\n" +
 						"\t\t<LineStyle>\n" +
-						"\t\t\t<color>ff0000ff</color>\n" +
+						"\t\t\t<color>"+color+"</color>\n" +
 						"\t\t\t<width>2</width>\n" +
 						"\t\t</LineStyle>\n" +
 						"\t\t<PolyStyle>\n" +
@@ -156,7 +159,7 @@ public class PathMaker
 						"\t\t</Pair>\n" +
 						"\t</StyleMap>\n" +
 						"\t<Placemark>\n" +
-						"\t\t<name>Example</name>\n" +
+						"\t\t<name>"+name+"</name>\n" +
 						"\t\t<styleUrl>#inline1</styleUrl>\n" +
 						"\t\t<LineString>\n" +
 						"\t\t\t<tessellate>1</tessellate>\n";
